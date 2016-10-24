@@ -1,0 +1,31 @@
+{
+  "name": "content-scraper",
+  "version": "1.0.0",
+  "description": "Content scraper",
+  "main": "scraper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maycas/th-td-fsjs-p6-ContentScraper.git"
+  },
+  "keywords": [
+    "scraper",
+    "web",
+    "content"
+  ],
+  "author": "Marc Maycas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Maycas/th-td-fsjs-p6-ContentScraper/issues"
+  },
+  "homepage": "https://github.com/Maycas/th-td-fsjs-p6-ContentScraper#readme",
+  "dependencies": {
+    "json2csv": "^3.7.0",
+    "osmosis": "^1.1.1"
+  },
+  "scripts": {
+    "lint": "jshint **.js"
+  }
+}
