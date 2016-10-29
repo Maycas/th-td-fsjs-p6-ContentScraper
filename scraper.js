@@ -45,37 +45,50 @@
         }
     }
 
-    function createFileInSystemSync(data, folderName, option) {
-        var today = new Date();
+    function setFilePath(folderName, option) {
         var filename, path;
 
         if (option === "data") {
-            filename = formatTimestamp(today, "filename") + ".csv";
+            filename = formatTimestamp(new Date(), "filename") + ".csv";
             path = folderName + "/" + filename;
-
-            console.log("Creating file: " + filename);
-
-            if (fs.existsSync(path)) {
-                console.log("File " + filename + " already exists in " + folderName + "/");
-                console.log("Overwriting file...");
-            }
-            fs.writeFile(path, data, function (error) {
-                if (!error) {
-                    console.log("Scraping process......... END");
-                } else {
-                    logError(error);
-                    console.error("There was an error when writing the output file, please execute script again");
-                }
-            });
         } else if (option === "error") {
             filename = "scraper-error.log";
             path = folderName + "/" + filename;
+        }
 
-            fs.appendFile(path, data, function (error) {
-                if (error) {
-                    console.error("There was an error appending the data to the file");
-                }
-            });
+        return path;
+    }
+
+    function writeToDataFile(data, filePath) {
+        console.log("Creating file: '" + filePath + "'");
+
+        if (fs.existsSync(filePath)) {
+            console.log("File '" + filePath + "' already exists");
+            console.log("Overwriting file...");
+        }
+        fs.writeFile(filePath, data, function (error) {
+            if (!error) {
+                console.log("Scraping process......... END");
+            } else {
+                logError(error);
+                console.error("There was an error when writing the output file, please execute script again");
+            }
+        });
+    }
+
+    function writeToErrorFile(data, filePath) {
+        fs.appendFile(filePath, data, function (error) {
+            if (error) {
+                console.error("There was an error appending the data to the file");
+            }
+        });
+    }
+
+    function createFileInSystemSync(data, folderName, option) {
+        if (option === "data") {
+            writeToDataFile(data, setFilePath(folderName, option));
+        } else if (option === "error") {
+            writeToErrorFile(data, setFilePath(folderName, option));
         }
     }
 
@@ -137,6 +150,7 @@
         globalError = true;
         createFileInSystemSync(errorData, folderName, "error");
     }
+
 
     // Run the content-scraper
     scrapeContent("data");
